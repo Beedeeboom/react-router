@@ -5,6 +5,7 @@ import CategorySelectionView from './CategorySelectionView'
 import NewEntryView from './NewEntryView'
 
 const App = () => { 
+  const categories = ['development', 'movies', 'philosophy', 'other']
   return (
     <div>
       <BrowserRouter>
@@ -14,8 +15,8 @@ const App = () => {
             <Link to="/entry">New Entry</Link>
         </nav>
         <Route exact path="/" component={HomeView} />
-        <Route exact path="/category" component={CategorySelectionView} />
-        <Route exact path="/newEntry/:cat_id" component={NewEntryView} />
+        <Route exact path="/category" render={props => <CategorySelectionView {...props} categories={categories} />} />
+        <Route exact path="/newEntry/:cat_id" render={props => <NewEntryView {...props} categories={categories}/>} />
       </BrowserRouter>
     </div>
   )
