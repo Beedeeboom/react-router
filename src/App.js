@@ -1,19 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import HomeView from './HomeView'
 import CategorySelectionView from './CategorySelectionView'
 import NewEntryView from './NewEntryView'
+import stateReducer from './stateReducer'
+import StateContext from './store'
 
 const App = () => {
-  const [categories, setCategories] = useState(['development', 'movies', 'philosophy', 'other'])
-  const [entries, setEntries] = useState([])
-
-  function addEntry(entry) {
-    setEntries([...entries, entry])
+  // const [categories, setCategories] = useState(['development', 'movies', 'philosophy', 'other'])
+  // const [entries, setEntries] = useState([])
+  const initialState = {
+    categories: ['development', 'movies', 'philosophy', 'other'],
+    entries: []
   }
+
+  const [store, dispatch] = useReducer(stateReducer, initialState)
+  const { categories, entries } = store
 
   return (
     <div>
+      <StateContext.Provider value={ { store, dispatch } }>
       <BrowserRouter>
         <nav>
           <Link to="/">Home   </Link>
@@ -21,9 +27,10 @@ const App = () => {
           <Link to="/entry">New Entry   </Link>
         </nav>
         <Route exact path="/" component={HomeView} />
-        <Route exact path="/category" render={props => <CategorySelectionView {...props} categories={categories} />} />
-        <Route exact path="/entry/new/:cat_id" render={props => <NewEntryView {...props} addEntry={addEntry} categories={categories} />} />
+        <Route exact path="/category" component={CategorySelectionView} />
+        <Route exact path="/entry/new/:cat_id" render={props => <NewEntryView {...props} />} />
       </BrowserRouter>
+      </StateContext.Provider>
     </div>
   )
 }
