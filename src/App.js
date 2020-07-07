@@ -22,13 +22,13 @@ const App = () => {
       <StateContext.Provider value={ { store, dispatch } }>
       <BrowserRouter>
         <nav>
-          <Link to="/">Home   </Link>
-          <Link to="/category">Category   </Link>
-          <Link to="/entry">New Entry   </Link>
+          <Link to="/">Home</Link>
+          <Link to="/category">Category</Link>
+          <Link to="/entry">New Entry</Link>yes
         </nav>
         <Route exact path="/" component={HomeView} />
         <Route exact path="/category" component={CategorySelectionView} />
-        <Route exact path="/entry/new/:cat_id" render={props => <NewEntryView {...props} />} />
+        <Route exact path="/entry/new/:cat_id" component={NewEntryView}/>} />
       </BrowserRouter>
       </StateContext.Provider>
     </div>
